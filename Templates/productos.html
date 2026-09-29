@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Productos | Tienda</title>
+	<style>
+		:root {
+			color-scheme: light;
+			font-family: "Segoe UI", sans-serif;
+			color: #202a2e;
+			background: #f4f6f3;
+		}
+		* { box-sizing: border-box; }
+		body { margin: 0; }
+		header {
+			padding: 2.5rem max(1.25rem, calc((100% - 960px) / 2));
+			color: #fff;
+			background: #176b5b;
+		}
+		header p { margin: 0 0 .35rem; color: #d1eee4; }
+		h1 { margin: 0; font-size: clamp(1.8rem, 5vw, 2.5rem); }
+		main { width: min(960px, calc(100% - 2.5rem)); margin: 2rem auto; }
+		.count { margin: 0 0 1rem; color: #52615e; }
+		.table-wrap { overflow-x: auto; background: #fff; border: 1px solid #dce4df; }
+		table { width: 100%; border-collapse: collapse; text-align: left; }
+		th, td { padding: .9rem 1rem; border-bottom: 1px solid #e5ebe7; }
+		th { color: #40514b; background: #edf3ef; font-size: .85rem; }
+		tbody tr:last-child td { border-bottom: 0; }
+		.price { white-space: nowrap; font-variant-numeric: tabular-nums; }
+		.stock { white-space: nowrap; }
+		.empty { padding: 2rem 1rem; color: #52615e; text-align: center; }
+		@media (max-width: 600px) {
+			th, td { padding: .75rem; }
+			.description { min-width: 180px; }
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<p>Catálogo</p>
+		<h1>Productos</h1>
+	</header>
+	<main>
+		<p class="count">{{ productos|length }} producto{{ productos|length|pluralize:"s" }}</p>
+		<div class="table-wrap">
+			<table>
+				<thead>
+					<tr>
+						<th scope="col">Producto</th>
+						<th scope="col">Código de barras</th>
+						<th scope="col">Descripción</th>
+						<th scope="col">Precio</th>
+						<th scope="col">Stock</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for producto in productos %}
+						<tr>
+							<td>{{ producto.nombre }}</td>
+							<td>{{ producto.codigo_barras }}</td>
+							<td class="description">{{ producto.descripcion|default:"Sin descripción"|linebreaksbr }}</td>
+							<td class="price">{{ producto.precio }}</td>
+							<td class="stock">{{ producto.stock }}</td>
+						</tr>
+					{% empty %}
+						<tr>
+							<td class="empty" colspan="5">Todavía no hay productos registrados.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</main>
+</body>
+</html>
